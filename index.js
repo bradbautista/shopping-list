@@ -74,16 +74,21 @@ $(function() {
 // ===============================================================================================================
 
     // Computer, if someone clicks the check button
-    $('ul').on('click', '.shopping-item-toggle', function(event) {
 
-        // Add the class shopping-item__checked to the parent element with the class shopping-item,
-        this.find('shopping-item').toggleClass('shopping-item__checked');
+    $('.shopping-item-toggle').click(event =>
+        $('.shopping-item').toggleClass('shopping-item__checked')
+        )
 
-        // And while we're at it let's try to get cheeky by changing "check" to "uncheck"
-        // this.find('span').text('uncheck');
+    // $('ul').on('click', '.shopping-item-toggle', function(event) {
 
-        // this.closest('li').remove();
-      });
+    //     // Add the class shopping-item__checked to the parent element with the class shopping-item,
+    //     $(this).closest('.shopping-item').toggleClass('shopping-item__checked');
+
+    //     // And while we're at it let's try to get cheeky by changing "check" to "uncheck"
+    //     // this.find('span').text('uncheck');
+
+    //     // this.closest('li').remove();
+    //   });
     // <span class="shopping-item">apples</span>
 
     // .shopping-item__checked {
