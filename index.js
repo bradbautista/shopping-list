@@ -1,22 +1,3 @@
-// So what do we need to do
-
-// In terms of user experience, your shopping list app must allow users to:
-
-// ===============================================================================================================
-//  -  ENTER ITEMS THEY NEED TO PURCHASE BY ENTERING TEXT AND HITTING "RETURN" OR CLICKING THE "ADD ITEM" BUTTON
-// -------------------------------------------------------------------------------------------------------------
-    // ++ Listen for user input on and collect user data from
-        // ++ <form id="js-shopping-list-form">
-        // ++  <label for="shopping-list-entry">Add an item</label>
-        // ++  <input type="text" name="shopping-list-entry" id="shopping-list-entry" placeholder="e.g., broccoli">
-        // ++  <button type="submit">Add item</button>
-        // ++ </form>
-            // ** On button submit or on enter keypress -- I think this is just general submission behavior but we can test after
-            // ++ We'll also want to prevent default behavior here
-    // ++ Add new <li> element to ul class "shopping-list" containing user data
-    // ++ Account for empty input
-// ===============================================================================================================
-
 // It's go time
 $(function() {
 
@@ -29,14 +10,15 @@ $(function() {
         // Instead, create a variable to hold the value of the text input
         let listItem = $('#shopping-list-entry').val();
 
-        // And make sure that input's not empty
-        if (listItem === "") {
+        // And make sure that input's not empty or a bunch of spaces
+        if ($.trim(listItem) === "") {
             alert('Lists require items!');
             return;
         }
 
-        // And then create a variable to hold the string of HTML for our list item
-        let listItemContainer = `<li>\
+        // And then create a variable to hold the string of HTML 
+        // for the list item we're going to create
+        let listItemBoilerplate = `<li>\
              <span class="shopping-item">${listItem}</span>\
              <div class="shopping-item-controls">\
              <button class="shopping-item-toggle">\
@@ -50,70 +32,36 @@ $(function() {
 
         // and append to all elements classed .shopping-list, in this case 
         // a lone ul, a new li via the HTML string up there
-        $('.shopping-list').append(listItemContainer);
+        $('.shopping-list').append(listItemBoilerplate);
 
         // And then reset the input form
         $('#shopping-list-entry').val("")
 
     })
-    
 
+    // Also, computer, if someone clicks the check button
+    $('ul').on('click', '.shopping-item-toggle', function(event) {
 
-// ===============================================================================================================
-//  -  CHECK AND UNCHECK ITEMS ON THE LIST BY CLICKING THE "CHECK" BUTTON
-// ----------------------------------------------------------------------
-// ++ Listen for user input on
-        // ++<button class="shopping-item-toggle">
-        // ++    <span class="button-label">check</span>
-        // ++ </button>
-    
-    // ++ Toggle strikethrough on 
-        // ++ <span class="shopping-item">apples</span>
-        // ++ Bonus points if I can get it to say "uncheck"
-        // ++ Thinkful suggestions imply toggleClass() method may be worth investigating here
-// ===============================================================================================================
+        // Add the class shopping-item__checked to the the nearest uncle/aunt with the class shopping-item,
+        $(this).parent().siblings('.shopping-item').toggleClass('shopping-item__checked');
 
-    // Computer, if someone clicks the check button
+        // And while we're at it, check to see if that auncle has .shopping-item__checked. 
+        // If it does, change the text of the "check" button to "uncheck"
 
-    $('.shopping-item-toggle').click(event =>
-        $('.shopping-item').toggleClass('shopping-item__checked')
-        )
-
-    // $('ul').on('click', '.shopping-item-toggle', function(event) {
-
-    //     // Add the class shopping-item__checked to the parent element with the class shopping-item,
-    //     $(this).closest('.shopping-item').toggleClass('shopping-item__checked');
-
-    //     // And while we're at it let's try to get cheeky by changing "check" to "uncheck"
-    //     // this.find('span').text('uncheck');
-
-    //     // this.closest('li').remove();
-    //   });
-    // <span class="shopping-item">apples</span>
-
-    // .shopping-item__checked {
-    //     text-decoration: line-through;
-    //   }
+        if ($(this).parent().siblings('.shopping-item').hasClass('shopping-item__checked')) {
+            $(this).text('uncheck');
+        } else {
+            $(this).text('check');
+        }
+    });
 
     
 
-// ===============================================================================================================
-//  -  PERMANENTLY REMOVE ITEMS FROM THE LIST
-// ----------------------------------------------
-    // ++ Remove existing <li> element from ul class "shopping list"
-        // ++ On button click
-            // ++ <button class="shopping-item-delete">
-            // ++ <span class="button-label">delete</span>
-            // ++ </button>
+    // Also, computer, if someone clicks the delete button
+    $('ul').on('click', '.shopping-item-delete', function(event) {
 
-    // Can't delete created divs. Why?
-// ===============================================================================================================
-
- // Computer, if someone clicks the delete button
-  $('ul').on('click', '.shopping-item-delete', function(event) {
-
-    // Delete the entire list item
-    this.closest('li').remove();
-  });
+        // Delete the entire list item
+        this.closest('li').remove();
+    });
 
 });
